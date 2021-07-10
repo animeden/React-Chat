@@ -1,16 +1,19 @@
 import React from 'react'
 import axios from 'axios'
+import '../index.css'
 
 class ChatForm extends React.Component{
 
     constructor(props) {
       super(props);
 
-      this.state ={chatName: '', userName:''};
+      this.state ={chatName: '', userName:'', errbool: false, errName: '', succbool: false, showUser:'', showChate:''};
 
       this.chatNameChange = this.chatNameChange.bind(this);
       this.userNameChange = this.userNameChange.bind(this);
       this.func = this.func.bind(this);
+      this.cler = this.cler.bind(this);
+      this.clsc = this.clsc.bind(this);
       this.valid = this.valid.bind(this);
     }
   
@@ -49,6 +52,7 @@ class ChatForm extends React.Component{
       });
 
     } 
+    
 
     valid(){
 
@@ -72,29 +76,78 @@ class ChatForm extends React.Component{
         errbool = true;
       }
       if(errbool){
-        alert(error);
+        this.setState({errbool: true});
+        this.setState({errName: error});
+        this.setState({succbool: false});
       }
       if(!errbool){
         this.func(this.state.userName, this.state.chatName);
-        alert('Chat name: ' + this.state.chatName + '; User name: ' + this.state.userName);
+        this.setState({succbool: true});
+        this.setState({errbool: false});
+        this.setState({showUser: this.state.userName});
+        this.setState({showChate: this.state.chatName});
       }
+    }
+
+    cler(){
+      this.setState({errbool: false});
+    }
+
+    clsc(){
+      this.setState({succbool: false});
     }
   
     render(){
       return (
         <div>
 
-          <label className='labelChat'>Chat name:</label>
-          <input type="text" value={this.state.chatName} onChange={this.chatNameChange} placeholder='Chat'/>
-            
+          <div className='createChatForm'>
 
-          <label className='labelUser'>User name:</label>
-          <input type="text" value={this.state.userName} onChange={this.userNameChange} placeholder='User'/>
+            <div className='createChatLabel'>
 
+              <label className='labelChat'>Chat name:</label>
+              <input type="text" value={this.state.chatName} onChange={this.chatNameChange} placeholder='Chat'/>
 
-          <button onClick={this.valid}>Submit</button>
+            </div>
+
+            <div className='createChatLabel'>
+
+              <label className='labelUser'>User name:</label>
+              <input type="text" value={this.state.userName} onChange={this.userNameChange} placeholder='User'/>
+
+            </div>
+
+            <div className='createChatButton'>
+
+              <button onClick={this.valid}>Submit</button>
+
+            </div>
+
+          </div>
+
+          <nav className={this.state.errbool ? 'errorform active' : 'errorform'}>
+
+            <div className='createChatFormH'><h>{this.state.errName}</h></div>
+
+            <div className='createChatFormButton'><button onClick={this.cler}>Close</button></div>
+
+          </nav>
+
+          <nav className={this.state.succbool ? 'successfulform active' : 'successfulform'}>
+
+          <div className='createChatFormH'>
+
+            <h>Chat with name <em>{this.state.showChate}</em> successfully created <br/> by user <em>{this.state.showUser}</em></h>
+
+          </div>
+
+          <div className='createChatFormButton'><button onClick={this.clsc}>Close</button></div>
+
+          </nav>
 
         </div>
+
+        
       );
     }
 }
