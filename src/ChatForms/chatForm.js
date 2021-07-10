@@ -6,11 +6,10 @@ class ChatForm extends React.Component{
     constructor(props) {
       super(props);
 
-      this.state ={chatName: 'Chat', userName:'User'};
+      this.state ={chatName: '', userName:''};
 
       this.chatNameChange = this.chatNameChange.bind(this);
       this.userNameChange = this.userNameChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
       this.func = this.func.bind(this);
       this.valid = this.valid.bind(this);
     }
@@ -27,17 +26,6 @@ class ChatForm extends React.Component{
       this.setState({userName: event.target.value});
 
     }
-  
-  
-    handleSubmit(event) {
-
-      event.preventDefault();
-
-      this.valid(this.state.userName, this.state.chatName);
-
-      
-
-    }
 
     async func(client_id, name) {
 
@@ -45,7 +33,8 @@ class ChatForm extends React.Component{
           method: 'post',
           url: "http://localhost:3000/createchat/api/chats/create-chat" ,
           data: JSON.stringify({
-            client_id, name
+           client_id: client_id, 
+           name: name
           }),
           headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -61,7 +50,12 @@ class ChatForm extends React.Component{
 
     } 
 
-    valid(userName, chatName){
+    valid(){
+
+      let userName = this.state.userName;
+      let chatName = this.state.chatName;
+
+
       let error = '';
       let errbool = false;
 
@@ -71,6 +65,10 @@ class ChatForm extends React.Component{
       }
       if(!chatName){
         error = error + ' Chat name cant be empty;';
+        errbool = true;
+      }
+      if(chatName.length < 7){
+        error = error + ' Chat name cant be less that 7 characters;';
         errbool = true;
       }
       if(errbool){
@@ -84,25 +82,19 @@ class ChatForm extends React.Component{
   
     render(){
       return (
-        <form onSubmit={this.handleSubmit}>
+        <div>
 
-          <label className='labelChat'>
-
-            Chat name:
-            <input type="text" value={this.state.chatName} onChange={this.chatNameChange} />
+          <label className='labelChat'>Chat name:</label>
+          <input type="text" value={this.state.chatName} onChange={this.chatNameChange} placeholder='Chat'/>
             
-          </label>
 
-          <label className='labelUser'>
+          <label className='labelUser'>User name:</label>
+          <input type="text" value={this.state.userName} onChange={this.userNameChange} placeholder='User'/>
 
-            User name:
-            <input type="text" value={this.state.userName} onChange={this.userNameChange} />
 
-          </label>
+          <button onClick={this.valid}>Submit</button>
 
-          <input type="submit" value="Send" />
-
-        </form>
+        </div>
       );
     }
 }
