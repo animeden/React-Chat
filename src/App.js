@@ -19,10 +19,10 @@ let styles = {
 
 function App() {
   const items = [
-    {id: 1, title: 'Home', path: '/', icon:<FaIcons.FaHome/>},
-    {id: 2, title: 'Chat list', path: '/chatlist', icon:<FaIcons.FaThList/>},
-    {id: 3, title: 'Create Chat', path: '/createchat', icon:<MdIcons.MdCreate/>},
-    {id: 4, title: 'Settings', path: '/settings', icon:<AiIcons.AiFillSetting/>}
+    {id: 1, title: 'Home', path: '/', icon:<FaIcons.FaHome className='icon'/>},
+    {id: 2, title: 'Chat list', path: '/chatlist', icon:<FaIcons.FaThList className='icon'/>},
+    {id: 3, title: 'Create Chat', path: '/createchat', icon:<MdIcons.MdCreate className='icon'/>},
+    {id: 4, title: 'Settings', path: '/settings', icon:<AiIcons.AiFillSetting className='icon'/>}
   ]
 
   return (

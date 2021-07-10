@@ -19,7 +19,7 @@ code {
 
 .nav-menu{
         background: #1C1C1C;
-        width:12vw;
+        width:16vw;
         height: 100vh;
         display: flex;
         justify-content: center;
@@ -68,7 +68,11 @@ code {
   margin: 0;
   padding: 0;
   height: 100vh;
-  background: darkred;
+  background-image: url(images/createChatBackground.jpg);
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .settings{
@@ -107,8 +111,66 @@ code {
   margin: 0;
   padding: 0;
   color: whitesmoke;
-  font-size: 80px;
+  font-size: 8vw;
   font-style: italic;
   text-shadow: 4px 4px 8px gray;
   -webkit-text-stroke: 2px black;
+}
+
+.ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width:100%;
+  height: 100vh;
+}
+
+@media screen and (max-width: 992px) {
+  .list span{
+    display: none;
+    text-align: center;
+  }
+
+  .list{
+    height: 14vh;
+  }
+
+  .img{
+    width:6vw;
+    height: 9vh;
+  }
+
+  .icon{
+    width:4vw;
+    height: 6vh;
+  }
+
+  .nav-menu{
+    width: 9vw;
+  }
+
+  .h{
+    font-size: 10vw;
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+  .nav-menu{
+    width: 16vw;
+  }
+
+  .img{
+    width:13vw;
+    height: 11vh;
+  }
+
+  .icon{
+    width:10vw;
+    height: 8vh;
+  }
+
+  .h{
+    font-size: 10vw;
+  }
 }

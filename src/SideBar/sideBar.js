@@ -6,13 +6,6 @@ import {Link} from 'react-router-dom'
 import '../index.css'
 
 let styles = {
-    ul: {
-        listStyle: 'none',
-        margin: 0,
-        padding: 0,
-        width:'100%',
-        height: '100vh'
-    },
 
     div:{
         margin: 0,
@@ -45,7 +38,7 @@ export default function Side(props){
 
         <nav className={open ? 'nav-menu active' : 'nav-menu'} >
             
-            <ul style={styles.ul}>
+            <ul className='ul'>
                 <li>
                     <Link to="#">
 
