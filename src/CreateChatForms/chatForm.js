@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import '../index.css'
+import stringify from 'qs-stringify'
 
 class ChatForm extends React.Component{
 
@@ -32,10 +33,12 @@ class ChatForm extends React.Component{
 
     async createChate(user_id, name) {
 
+      let current = this
+
       await axios({
           method: 'post',
           url: "https://chat.vallsoft.com/api/chats/create-chat" ,
-          data: JSON.stringify({
+          data: stringify({
            user_id: user_id, 
            name: name
           }),
@@ -45,7 +48,21 @@ class ChatForm extends React.Component{
           }
       }).then(function (response) {
           if (response.data !== '' && response.data.constructor === Object) {  
-              this.setState({succbool: true});  
+              let event = response.data
+
+              if(event.status){
+                
+                current.setState({errbool: false});
+                current.setState({succbool: true});
+
+              }
+              else{
+                
+                current.setState({succbool: false});
+                current.setState({errName: 'Error'});
+                current.setState({errbool: true});
+
+              }
           }
       }).catch(function (error) {
           console.log(error)
@@ -82,7 +99,6 @@ class ChatForm extends React.Component{
       }
       if(!errbool){
         this.createChate(this.state.userName, this.state.chatName);
-        this.setState({errbool: false});
         this.setState({showUser: this.state.userName});
         this.setState({showChate: this.state.chatName});
       }
