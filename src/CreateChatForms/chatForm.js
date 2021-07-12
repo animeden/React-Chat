@@ -11,10 +11,10 @@ class ChatForm extends React.Component{
 
       this.chatNameChange = this.chatNameChange.bind(this);
       this.userNameChange = this.userNameChange.bind(this);
-      this.func = this.func.bind(this);
-      this.cler = this.cler.bind(this);
-      this.clsc = this.clsc.bind(this);
-      this.valid = this.valid.bind(this);
+      this.createChate = this.createChate.bind(this);
+      this.setError = this.setError.bind(this);
+      this.setSuccsses = this.setSuccsses.bind(this);
+      this.validateFrom = this.validateFrom.bind(this);
     }
   
   
@@ -30,7 +30,7 @@ class ChatForm extends React.Component{
 
     }
 
-    async func(client_id, name) {
+    async createChate(client_id, name) {
 
       await axios({
           method: 'post',
@@ -54,7 +54,7 @@ class ChatForm extends React.Component{
     } 
     
 
-    valid(){
+    validateFrom(){
 
       let userName = this.state.userName;
       let chatName = this.state.chatName;
@@ -81,7 +81,7 @@ class ChatForm extends React.Component{
         this.setState({succbool: false});
       }
       if(!errbool){
-        this.func(this.state.userName, this.state.chatName);
+        this.createChate(this.state.userName, this.state.chatName);
         this.setState({succbool: true});
         this.setState({errbool: false});
         this.setState({showUser: this.state.userName});
@@ -89,11 +89,11 @@ class ChatForm extends React.Component{
       }
     }
 
-    cler(){
+    setError(){
       this.setState({errbool: false});
     }
 
-    clsc(){
+    setSuccsses(){
       this.setState({succbool: false});
     }
   
@@ -119,7 +119,7 @@ class ChatForm extends React.Component{
 
             <div className='createChatButton'>
 
-              <button onClick={this.valid}>Submit</button>
+              <button onClick={this.validateFrom}>Submit</button>
 
             </div>
 
@@ -129,19 +129,19 @@ class ChatForm extends React.Component{
 
             <div className='createChatFormH'><h>{this.state.errName}</h></div>
 
-            <div className='createChatFormButton'><button onClick={this.cler}>Close</button></div>
+            <div className='createChatFormButton'><button onClick={this.setError}>Close</button></div>
 
           </nav>
 
           <nav className={this.state.succbool ? 'successfulform active' : 'successfulform'}>
 
-          <div className='createChatFormH'>
+            <div className='createChatFormH'>
 
-            <h>Chat with name <em>{this.state.showChate}</em> successfully created <br/> by user <em>{this.state.showUser}</em></h>
+              <h>Chat with name <em>{this.state.showChate}</em> successfully created <br/> by user <em>{this.state.showUser}</em></h>
 
-          </div>
+            </div>
 
-          <div className='createChatFormButton'><button onClick={this.clsc}>Close</button></div>
+            <div className='createChatFormButton'><button onClick={this.setSuccsses}>Close</button></div>
 
           </nav>
 

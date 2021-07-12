@@ -8,7 +8,7 @@ class CreateChat extends React.Component {
     render(){
     return (
         <div className='createchat'>
-            <ChatForm></ChatForm>
+            <ChatForm/>
         </div>
     )
     }
