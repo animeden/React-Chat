@@ -30,22 +30,22 @@ class ChatForm extends React.Component{
 
     }
 
-    async createChate(client_id, name) {
+    async createChate(user_id, name) {
 
       await axios({
           method: 'post',
-          url: "http://localhost:3000/createchat/api/chats/create-chat" ,
+          url: "https://chat.vallsoft.com/api/chats/create-chat" ,
           data: JSON.stringify({
-           client_id: client_id, 
+           user_id: user_id, 
            name: name
           }),
           headers: {
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-              'Authorization': '',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            'Authorization': 'BpvgI5T7EynnaDjDOqa7AT-gfjQNDhgM',
           }
       }).then(function (response) {
-          if (response.data !== '' && response.data.constructor === Object) {
-              console.log(response.data)     
+          if (response.data !== '' && response.data.constructor === Object) {  
+              this.setState({succbool: true});  
           }
       }).catch(function (error) {
           console.log(error)
@@ -82,7 +82,6 @@ class ChatForm extends React.Component{
       }
       if(!errbool){
         this.createChate(this.state.userName, this.state.chatName);
-        this.setState({succbool: true});
         this.setState({errbool: false});
         this.setState({showUser: this.state.userName});
         this.setState({showChate: this.state.chatName});
