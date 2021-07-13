@@ -4,6 +4,7 @@ import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
 import {Link} from 'react-router-dom'
 import '../index.css'
+import {useSelector} from 'react-redux'
 
 let styles = {
 
@@ -20,6 +21,8 @@ let styles = {
 
 export default function Side(props){
 
+    const theme  =  useSelector(state => state.theme);
+
     const [open, setstate] = useState(false);
 
     const showMenu = () => setstate(!open);
@@ -30,19 +33,19 @@ export default function Side(props){
         
             <Link to="#">
 
-                <FaIcons.FaBars onClick={showMenu}  className='img'/>
+                <FaIcons.FaBars onClick={showMenu}  className={'img-' + theme.siteTheme}/>
 
             </Link>
         
         </div>
 
-        <nav className={open ? 'nav-menu active' : 'nav-menu'} >
+        <nav className={open ? 'nav-active-' + theme.siteTheme : 'nav-menu'} >
             
             <ul className='ul'>
                 <li>
                     <Link to="#">
 
-                        <AiIcons.AiOutlineClose onClick={showMenu} className='img'/>
+                        <AiIcons.AiOutlineClose onClick={showMenu} className={'img-' + theme.siteTheme}/>
 
                     </Link>
                 </li>

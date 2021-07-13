@@ -9,6 +9,8 @@ import ChatList from './pages/chatList'
 import CreateChat from './pages/createChat'
 import Home from './pages/home'
 import Settings from './pages/settings'
+import {Provider} from "react-redux";
+import store from "./redux/store";
 
 let styles = {
   div:{
@@ -26,17 +28,19 @@ function App() {
   ]
 
   return (
-    <div style={styles.div}>
-      <Router>
-        <SideBar items={items} />
-        <Switch>
-          <Route path='/' exact component={Home}></Route>
-          <Route path='/chatlist' component={ChatList}></Route>
-          <Route path='/createchat' component={CreateChat}></Route>
-          <Route path='/settings' component={Settings}></Route>
-        </Switch>
-      </Router>
-    </div>
+    <Provider store={store}>
+      <div style={styles.div}>
+        <Router>
+          <SideBar items={items} />
+          <Switch>
+            <Route path='/' exact component={Home}></Route>
+            <Route path='/chatlist' component={ChatList}></Route>
+            <Route path='/createchat' component={CreateChat}></Route>
+            <Route path='/settings' component={Settings}></Route>
+          </Switch>
+        </Router>
+      </div>
+    </Provider>
   );
 }
 
