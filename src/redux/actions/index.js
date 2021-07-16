@@ -8,11 +8,9 @@ export const setSiteTheme = (data) => ({
     data: data
 })
 
-export const setLogin = (name, id, token) => ({
+export const setLogin = (data) => ({
     type: SET_LOGIN,
-    name: name,
-    id: id,
-    token: token
+    data: data
 })
 
 

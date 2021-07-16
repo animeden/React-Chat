@@ -137,7 +137,7 @@ code {
 
 .createChatLabel{
   width: 650px;
-  height: 100px;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -402,6 +402,10 @@ code {
   align-items: center;
 }
 
+.homeText{
+  text-align: center;
+}
+
 .img-dark{
   width:4vw;
   height: 6vh;
@@ -430,7 +434,17 @@ code {
   margin: 0;
   padding: 0;
   color: whitesmoke;
-  font-size: 8vw;
+  font-size: 140px;
+  font-style: italic;
+  text-shadow: 4px 4px 8px gray;
+  -webkit-text-stroke: 2px black;
+}
+
+.h2{
+  margin: 0;
+  padding: 0;
+  color: #383333;
+  font-size: 80px;
   font-style: italic;
   text-shadow: 4px 4px 8px gray;
   -webkit-text-stroke: 2px black;

@@ -2,14 +2,24 @@ import React, {useState} from 'react'
 import '../index.css'
 import stringify from 'qs-stringify'
 import axios from 'axios'
+import {useDispatch} from 'react-redux'
+import {setLogin} from "../redux/actions/index";
+import {useSelector} from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 function RegisterForm(){
+    
+    const dispatch = useDispatch();
 
     const [userName, setState] = useState('');
 
     const [name, setStat] = useState('');
 
     const [password, setstate] = useState('');
+    
+    const token  =  useSelector(state => state.login.stateUserToken);
+
+    const id  =  useSelector(state => state.login.stateUserId);
 
     function setUserName(event){
         setState(event.target.value);
@@ -39,7 +49,7 @@ function RegisterForm(){
             }),
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-              'Authorization': '',
+              'Authorization': token,
             }
         }).then(function (response) {
             if (response.data !== '' && response.data.constructor === Object) {  
@@ -47,12 +57,15 @@ function RegisterForm(){
   
                 if(event.status){
                   
-                  console.log(event)
+                    dispatch(setLogin({name: reguserName, id: event.data.id, token: event.data.token}));
+                    console.log(localStorage.getItem('user_name'));
+                    console.log(localStorage.getItem('user_id'));
+                    console.log(localStorage.getItem('user_token'));
   
                 }
                 else{
                   
-                  console.log('error')
+                  console.log(event.message)
   
                 }
             }
@@ -61,6 +74,11 @@ function RegisterForm(){
         });
   
       } 
+
+      if(id){
+        console.log(id);
+        return <Redirect to={'/home'}/>
+    }else
 
     return (
         <div className='registerForm'>

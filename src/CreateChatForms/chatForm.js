@@ -2,16 +2,17 @@ import React from 'react'
 import axios from 'axios'
 import '../index.css'
 import stringify from 'qs-stringify'
+import {setLogin} from "../redux/actions/index";
+import {connect} from 'react-redux';
 
 class ChatForm extends React.Component{
 
     constructor(props) {
       super(props);
 
-      this.state ={chatName: '', userName:'', errbool: false, errName: '', succbool: false, showUser:'', showChate:''};
+      this.state ={chatName: '', errbool: false, errName: '', succbool: false, showChate:''};
 
       this.chatNameChange = this.chatNameChange.bind(this);
-      this.userNameChange = this.userNameChange.bind(this);
       this.createChate = this.createChate.bind(this);
       this.setError = this.setError.bind(this);
       this.setSuccsses = this.setSuccsses.bind(this);
@@ -25,13 +26,7 @@ class ChatForm extends React.Component{
 
     }
 
-    userNameChange(event) {
-
-      this.setState({userName: event.target.value});
-
-    }
-
-    async createChate(user_id, name) {
+    async createChate(name) {
 
       let current = this
 
@@ -39,12 +34,12 @@ class ChatForm extends React.Component{
           method: 'post',
           url: "https://chat.vallsoft.com/api/chats/create-chat" ,
           data: stringify({
-           user_id: user_id, 
+           user_id: this.props.login.stateUserId, 
            name: name
           }),
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-            'Authorization': 'BpvgI5T7EynnaDjDOqa7AT-gfjQNDhgM',
+            'Authorization': this.props.login.stateUserToken,
           }
       }).then(function (response) {
           if (response.data !== '' && response.data.constructor === Object) {  
@@ -73,17 +68,12 @@ class ChatForm extends React.Component{
 
     validateFrom(){
 
-      let userName = this.state.userName;
       let chatName = this.state.chatName;
 
 
       let error = '';
       let errbool = false;
 
-      if(!userName){
-        error = error + ' User name cant be empty;';
-        errbool = true;
-      }
       if(!chatName){
         error = error + ' Chat name cant be empty;';
         errbool = true;
@@ -98,8 +88,7 @@ class ChatForm extends React.Component{
         this.setState({succbool: false});
       }
       if(!errbool){
-        this.createChate(this.state.userName, this.state.chatName);
-        this.setState({showUser: this.state.userName});
+        this.createChate(this.state.chatName);
         this.setState({showChate: this.state.chatName});
       }
     }
@@ -125,13 +114,6 @@ class ChatForm extends React.Component{
 
             </div>
 
-            <div className='createChatLabel'>
-
-              <label className='labelUser'>User name:</label>
-              <input type="text" value={this.state.userName} onChange={this.userNameChange} placeholder='User'/>
-
-            </div>
-
             <div className='createChatButton'>
 
               <button onClick={this.validateFrom}>Submit</button>
@@ -152,7 +134,7 @@ class ChatForm extends React.Component{
 
             <div className='createChatFormH'>
 
-              <h>Chat with name <em>{this.state.showChate}</em> successfully created <br/> by user <em>{this.state.showUser}</em></h>
+              <h>Chat with name <em>{this.state.showChate}</em> successfully created <br/> by user <em>{this.props.login.stateUserId}</em></h>
 
             </div>
 
@@ -167,4 +149,13 @@ class ChatForm extends React.Component{
     }
 }
 
-export default ChatForm;
+
+const mapStateToProps = state => ({
+  login: state.login
+});
+
+const mapDispatchToProps = dispatch => ({
+  setLogin: data => dispatch(setLogin(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatForm);
