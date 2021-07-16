@@ -1,5 +1,6 @@
 import {
-    SET_SITE_THEME
+    SET_SITE_THEME,
+    SET_LOGIN
 } from "./actionTypes";
 
 export const setSiteTheme = (data) => ({
@@ -7,5 +8,11 @@ export const setSiteTheme = (data) => ({
     data: data
 })
 
+export const setLogin = (name, id, token) => ({
+    type: SET_LOGIN,
+    name: name,
+    id: id,
+    token: token
+})
 
 

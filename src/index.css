@@ -444,6 +444,127 @@ code {
   height: 100vh;
 }
 
+.logreg-dark{
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  background: #023c44;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logreg-light{
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #bff2e3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logregLabel{
+  width: 650px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logregLabel label{
+  width: 100px;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 4px 4px 8px black;
+  -webkit-text-stroke: 1px black;
+}
+
+.logregLabel input{
+  margin-left: 40px;
+  width: 300px;
+  height: 50px;
+  box-shadow: 0px 0px 2px 1px white;
+  font-size: 25px;
+  border: 3px solid black;
+  border-radius: 50px;
+  padding: 0 15px;
+  outline: none;
+}
+
+.logregLabel input:focus{
+  box-shadow: 0px 0px 2px 1px black;
+}
+
+.logregLabelButton{
+  width: 650px;
+  height: 100px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.logregLabelButton button{
+  width: 200px;
+  height: 70px;
+  margin-right: 20px;
+  background: #3cc93c;
+  border: 3px solid black;
+  border-radius: 50px;
+  box-shadow: 0 0 4px 1px white;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke: 1px black;
+}
+
+.logregLabelButton button:hover{
+  background: #28402e;
+}
+
+.login-able{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-disable{
+  display: none;
+}
+
+.register-able{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-disable{
+  display: none;
+}
+
+.logregButton{
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logregButton button{
+  font-size: 20px;
+  background: transparent;
+  border: none;
+}
+
+.logregButton button:hover{
+  color: red;
+}
+
+.logregButton h{
+  font-size: 20px;
+}
+
 @media screen and (max-width: 992px) {
   .list-dark span{
     display: none;
