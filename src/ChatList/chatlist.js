@@ -8,7 +8,7 @@ function ChatList(props){
     const theme  =  useSelector(state => state.theme);
 
     return (
-        <div className='chatlistlist'>
+        <div className={'chatlistlist-'  + theme.siteTheme}>
             <div className='chatlistlistblock'>
                 { props.chats.map(chat =>{
                     return <ChatListItem chat={chat}/>

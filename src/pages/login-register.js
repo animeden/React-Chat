@@ -8,19 +8,19 @@ function Logreg(){
 
     const [logReg, setstate] = useState(false);
 
-    const [text, setState] = useState('Log in');
+    const [text, setState] = useState('Register');
 
-    const [message, setStat] = useState('You alredy have account?');
+    const [message, setStat] = useState('You didnt have account?');
 
     function lgrg(){
 
         setstate(!logReg);
 
-        if(!logReg){
+        if(logReg){
             setState('Register');
             setStat('You didnt have account?');
         }
-        if(logReg){
+        if(!logReg){
             setState('Log in');
             setStat('You alredy have account?');
         }
@@ -31,8 +31,8 @@ function Logreg(){
     return (
         <div className={'logreg-' + theme.siteTheme}>
             <div>
-                <div className={logReg ? 'login-able' : 'login-disable'}><Login/></div>
-                <div className={logReg ? 'register-disable' : 'register-able'}><Register/></div>
+                <div className={logReg ? 'login-disable' : 'login-able'}><Login/></div>
+                <div className={logReg ? 'register-able' : 'register-disable'}><Register/></div>
                 <div className='logregButton'><h>{message}</h><button onClick={lgrg}>{text}</button></div>
             </div>
         </div>

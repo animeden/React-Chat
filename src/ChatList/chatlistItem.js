@@ -11,24 +11,35 @@ function ChatListItem({chat}){
 
     const [addUsersId, setAddUsersId] = useState('');
 
-    const [addUsersIdMassive, setAddUsersIdMassive] = useState([]);
-
-    const theme  =  useSelector(state => state.theme);
+    const [leaveUsersId, setLeaveUsersId] = useState('');
 
     const [add, setAdd] = useState('');
     
     const [addActive, setAddActive] = useState(false);
+
+    const [leave, setLeave] = useState('');
+    
+    const [leaveActive, setLeaveActive] = useState(false);
     
     const token  =  useSelector(state => state.login.stateUserToken);
+    
+    const id  =  useSelector(state => state.login.stateUserId);
 
-    function setUserIdString(event){
+    function setUserIdStringAdd(event){
         setAddUsersId(event.target.value);
+    }
+
+    function setUserIdStringLeave(event){
+        setLeaveUsersId(event.target.value);
     }
 
     function activeAdd() {
         if(!addActive){
             setAdd('-active');
             setAddActive(true);
+            setLeave('');
+            setLeaveActive(false);
+            setLeaveUsersId('');
         }
         if(addActive){
             setAdd('');
@@ -37,11 +48,38 @@ function ChatListItem({chat}){
         }
     }
 
-    function addUserValidation() {
-        
-        setAddUsersIdMassive(addUsersId.split(','));
-        addUsers();
+    function activeLeave() {
+        setAddActive(false);
+        if(!leaveActive){
+            setLeave('-active');
+            setLeaveActive(true);
+            setAdd('');
+            setAddActive(false);
+            setAddUsersId('');
+        }
+        if(leaveActive){
+            setLeave('');
+            setLeaveActive(false);
+            setLeaveUsersId('');
+        }
+    }
 
+    function addUserValidation() {
+        activeAdd();
+        const massive = addUsersId.split(',');
+        addUsers(massive);
+
+    }
+
+    function  leaveUserValidator() {
+        activeLeave();
+        const massive = leaveUsersId.split(',');
+        leaveChat(massive);
+    }
+
+    function outUserValidator() {
+        activeLeave();
+        leaveChat([id]);
     }
 
     async function deleteChat() {
@@ -77,13 +115,13 @@ function ChatListItem({chat}){
   
       } 
 
-      async function addUsers() {
+      async function addUsers(members_list) {
     
         await axios({
             method: 'post',
             url: "https://chat.vallsoft.com/api/chats/add-users-to-chat" ,
             data: stringify({
-                members_list: addUsersIdMassive,
+                members_list: members_list,
                 chat_id : chat.id
             }),
             headers: {
@@ -96,12 +134,12 @@ function ChatListItem({chat}){
   
                 if(event.status){
                   
-                  console.log(addUsersIdMassive);
+                  console.log(members_list);
   
                 }
                 else{
                   
-                  console.log(addUsersIdMassive)
+                  console.log(event.message);
   
                 }
             }
@@ -111,12 +149,13 @@ function ChatListItem({chat}){
   
       } 
 
-      async function leaveChat() {
+      async function leaveChat(members_list) {
   
         await axios({
             method: 'post',
-            url: "https://chat.vallsoft.com/api/chats/delete-chat" ,
+            url: "https://chat.vallsoft.com/api/chats/remove-users-from-chat" ,
             data: stringify({
+                members_list: members_list,
                 chat_id : chat.id
             }),
             headers: {
@@ -153,26 +192,33 @@ function ChatListItem({chat}){
                 <div className='actionsBlock'>
 
                     <button className="actionButton" onClick={activeAdd}><AIIcons.AiOutlineUsergroupAdd className='action'/></button>
-                    <button className="actionButton"><MDIcons.ImExit className='action'/></button>
+                    <button className="actionButton" onClick={activeLeave}><MDIcons.ImExit className='action'/></button>
                     <button className="actionButton" onClick={deleteChat}><BSIcons.BsFillTrashFill className='action'/></button>
 
                 </div>
 
             </button>
 
+            <div className={'addusers' + add}>
+
+                <input  type="text" onChange={setUserIdStringAdd} value={addUsersId} placeholder='To add two or more users write(2,3,4,...,9)'/>
+
+                <button onClick={addUserValidation}>Add</button>
+
+            </div>
+
             <div>
 
-                <div>
+                <div className={'leaveusers' + leave}>
 
-                    <div className={'addusers' + add}>
+                    <input  type="text" onChange={setUserIdStringLeave} value={leaveUsersId} placeholder='To remove 2 or more users write(2,3,4,...,9)'/>
 
-                        <input  type="text" onChange={setUserIdString} value={addUsersId} placeholder='To add two or more users write(2,3,4,...,9)'/>
-
-                        <button onClick={addUserValidation}>Add</button>
-
-                    </div>
+                    <button onClick={leaveUserValidator}>Kick</button>
 
                 </div>
+
+
+                <div className={'leaveButton' + leave}><button onClick={outUserValidator}>Leave from Chat</button></div>
 
             </div>
 
