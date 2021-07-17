@@ -118,6 +118,117 @@ code {
   align-items: center;
 }
 
+.chatlistItem{
+  width: 100%;
+  height: 45px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  border: 2px solid black;
+  border-radius: 30px;
+}
+
+.chatlistItem h{
+  margin-left: 20px;
+  font-size: 17px;
+}
+
+.chatlistItem:hover{
+  background: gray;
+}
+
+.chatlistlist{
+  width: 400px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: #0b1e24;
+  overflow: scroll;
+}
+
+::-webkit-scrollbar{
+  width: 15px;
+  height: 0px;
+  background: #057533;
+}
+
+::-webkit-scrollbar-track{
+  background: gray;
+}
+
+::-webkit-scrollbar-thumb{
+  background: #0a2b15;
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background: #061209;
+  border-radius: 30px;
+}
+
+.actionButton{
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionsBlock{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.action{
+  width: 20px;
+  height: 20px;
+}
+
+.action:hover{
+  color: red;
+}
+
+.chatlistlistblock{
+  width: 330px;
+  margin-top: 40px;
+}
+
+.addusers{
+  display: none;
+}
+
+.addusers-active{
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addusers-active input{
+  width: 80%;
+  height: 70%;
+  border: 2px solid black;
+  border-radius: 30px 0px 0px 30px;
+  outline: none;
+}
+
+.addusers-active button{
+  width: 20%;
+  height: 80%;
+  border: 2px solid black;
+  border-radius: 0px 30px 30px 0px;
+  background: #3cc93c;
+}
+
+.addusers-active button:hover{
+  background: #163d20;
+}
+
 .createchat-light{
   width:100vw;
   margin: 0;
@@ -702,11 +813,11 @@ code {
 
 @media screen and (max-width: 600px) {
   .nav-active-dark{
-    width: 50px;
+    width: 90px;
   }
 
   .nav-active-light{
-    width: 50px;
+    width: 90px;
   }
 
   .img-dark{

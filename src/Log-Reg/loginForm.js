@@ -11,20 +11,20 @@ function LoginForm(){
 
     const dispatch = useDispatch();
 
-    const [userName, setStat] = useState('');
+    const [userName, setStateUserName] = useState('');
 
-    const [password, setstate] = useState('');
+    const [password, setStatePassword] = useState('');
 
     const token  =  useSelector(state => state.login.stateUserToken);
 
     const id  =  useSelector(state => state.login.stateUserId);
 
     function setUserName(event){
-        setStat(event.target.value);
+        setStateUserName(event.target.value);
     }
 
     function setPassword(event){
-        setstate(event.target.value);
+        setStatePassword(event.target.value);
     }
 
     function LoginValidation(){
@@ -86,7 +86,7 @@ function LoginForm(){
             <div className='logregLabel'>
 
                 <label className='labelReg'>Password:</label>
-                <input type="text" value={password} onChange={setPassword} placeholder='Password'/>
+                <input type="text" value={password} onChange={setPassword} placeholder='Password' type='password'/>
 
             </div>
 
