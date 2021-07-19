@@ -51,7 +51,7 @@ export default function Side(props){
                 </li>
 
                 { props.items.map(item =>{
-                    return <Item item={item}/>
+                    return <div onClick={showMenu}><Item item={item}/></div>
                 }) }
 
             </ul>

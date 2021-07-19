@@ -36,10 +36,8 @@ function App() {
     else{
       items = [
         {id: 1, title: 'Home', path: '/home', icon:<FaIcons.FaHome className='icon'/>},
-        {id: 2, title: 'Chat list', path: '/chatlist', icon:<FaIcons.FaThList className='icon'/>},
-        {id: 3, title: 'Create Chat', path: '/createchat', icon:<MdIcons.MdCreate className='icon'/>},
-        {id: 4, title: 'Settings', path: '/settings', icon:<AiIcons.AiFillSetting className='icon'/>},
-        {id: 5, title: 'Log in / Registration', path: '/', icon:<RiIcons.RiAccountPinBoxFill className='icon'/>}
+        {id: 2, title: 'Settings', path: '/settings', icon:<AiIcons.AiFillSetting className='icon'/>},
+        {id: 3, title: 'Log in / Registration', path: '/', icon:<RiIcons.RiAccountPinBoxFill className='icon'/>}
       ]
     }
  
@@ -51,7 +49,7 @@ function App() {
   return (
       <div style={styles.div}>
         <Router>
-          <SideBar items={items} />
+          <SideBar items={items}/>
           <Switch>
             <Route path='/' exact component={Logreg}></Route>
             <Route path='/home' component={Home}></Route>

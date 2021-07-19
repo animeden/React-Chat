@@ -7,7 +7,7 @@ import * as AIIcons from 'react-icons/ai'
 import stringify from 'qs-stringify'
 import axios from 'axios'
 
-function ChatListItem({chat}){
+function ChatListItem({chat, setIsFormVisible, ws}){
 
     const [addUsersId, setAddUsersId] = useState('');
 
@@ -80,6 +80,15 @@ function ChatListItem({chat}){
     function outUserValidator() {
         activeLeave();
         leaveChat([id]);
+    }
+
+    function makeFormVisible() {
+        setIsFormVisible(true);
+        subscribeToChat();
+    }
+
+    function subscribeToChat() {
+        ws.socketSend('chat/subscribe-chat', {'chat_id': chat.id});
     }
 
     async function deleteChat() {
@@ -185,7 +194,7 @@ function ChatListItem({chat}){
 
     return (
         <div>
-            <button className='chatlistItem'>
+            <button className='chatlistItem' onClick={()=>makeFormVisible()}>
 
                 <h>{chat.name}</h>
 
@@ -201,7 +210,7 @@ function ChatListItem({chat}){
 
             <div className={'addusers' + add}>
 
-                <input  type="text" onChange={setUserIdStringAdd} value={addUsersId} placeholder='To add two or more users write(2,3,4,...,9)'/>
+                <input  type="text" onChange={setUserIdStringAdd} value={addUsersId} placeholder='To add two or more users write(2,4,...,9)'/>
 
                 <button onClick={addUserValidation}>Add</button>
 
@@ -211,7 +220,7 @@ function ChatListItem({chat}){
 
                 <div className={'leaveusers' + leave}>
 
-                    <input  type="text" onChange={setUserIdStringLeave} value={leaveUsersId} placeholder='To remove 2 or more users write(2,3,4,...,9)'/>
+                    <input  type="text" onChange={setUserIdStringLeave} value={leaveUsersId} placeholder='To remove 2 or more users write(2,4,...,9)'/>
 
                     <button onClick={leaveUserValidator}>Kick</button>
 
