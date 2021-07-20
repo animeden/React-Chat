@@ -23,6 +23,14 @@ function ChatList(props){
     const [isFormVisible, setIsFormVisible] = useState(false);
 
     const [chatId, setChatId] = useState('');
+    
+    const [errbool, setErrorBool] = useState(false);
+    
+    const [errName, setErrorName] = useState('');
+    
+    function setBool() {
+      setErrorBool(false)
+  }
 
     function sockets() {
         //Подключение
@@ -39,6 +47,10 @@ function ChatList(props){
         _ws.addAction('status', function (data) {
             //тут описываете, что делать с данными, которые пришли
             console.log(data)
+        });
+        _ws.addAction('error', function (data) { 
+          setErrorName(data.error);
+          console.log(data);
         });
       
        //сохраняете в state
@@ -159,6 +171,14 @@ function ChatList(props){
 
             ) : (<div></div>)
             }
+
+          <div className={errbool ? 'errorform active' : 'errorform'}>
+
+            <div className='createChatFormH'><h>{errName}</h></div>
+
+            <div className='createChatFormButton'><button onClick={setBool}>Close</button></div>
+
+          </div>
         </>
     )
 }

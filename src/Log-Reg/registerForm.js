@@ -17,6 +17,10 @@ function RegisterForm(){
 
     const [password, setStatePasswod] = useState('');
 
+    const [errbool, setErrorBool] = useState(false);
+    
+    const [errName, setErrorName] = useState('');
+
     const id  =  useSelector(state => state.login.stateUserId);
 
     function setUserName(event){
@@ -31,8 +35,35 @@ function RegisterForm(){
         setStatePasswod(event.target.value);
     }
 
+    
+    function setBool() {
+        setErrorBool(false)
+    }
+
     function RegisterValidation(){
-        register(userName, name, password)
+        let username = userName;
+        let passWord = password;
+        let regname = name;
+
+        let err = '';
+        let errboll = false;
+
+        if(!username){
+            errboll = true;
+            err = err + ' Login is empty;';
+        }
+        if(!passWord){
+            errboll = true;
+            err = err + ' Password is empty;';
+        }
+        if(!regname){
+            errboll = true;
+            err = err + ' Name is empty;';
+        }
+        if(errboll){
+            setErrorBool(true);
+            setErrorName(err);
+        }else register(userName, name, password)
     }
 
     async function register(reguserName, regname, regpassword) {
@@ -79,6 +110,7 @@ function RegisterForm(){
     }else
 
     return (
+        <>
         <div className='registerForm'>
             <div className='logregLabel'>
 
@@ -107,6 +139,15 @@ function RegisterForm(){
 
             </div>
         </div>
+
+        <div className={errbool ? 'errorform active' : 'errorform'}>
+
+            <div className='createChatFormH'><h>{errName}</h></div>
+
+            <div className='createChatFormButton'><button onClick={setBool}>Close</button></div>
+
+        </div>
+        </>
     )
 }
 

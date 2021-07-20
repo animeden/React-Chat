@@ -15,6 +15,10 @@ function LoginForm(){
 
     const [password, setStatePassword] = useState('');
 
+    const [errbool, setErrorBool] = useState(false);
+    
+    const [errName, setErrorName] = useState('');
+
     const id  =  useSelector(state => state.login.stateUserId);
 
     function setUserName(event){
@@ -26,7 +30,26 @@ function LoginForm(){
     }
 
     function LoginValidation(){
-        login(userName, password)
+        let username = userName;
+        let passWord = password;
+        let err = '';
+        let errboll = false;
+        if(!username){
+            errboll = true;
+            err = err + ' Login is empty;';
+        }
+        if(!passWord){
+            errboll = true;
+            err = err +' Password is empty;';
+        }
+        if(errboll){
+            setErrorBool(true);
+            setErrorName(err);
+        }else login(userName, password)
+    }
+
+    function setBool() {
+        setErrorBool(false)
     }
 
     async function login(reguserName, regpassword) {
@@ -55,8 +78,9 @@ function LoginForm(){
   
                 }
                 else{
-                  
-                  console.log(event.message)
+
+                    setErrorBool(true);
+                    setErrorName(event.message);
   
                 }
             }
@@ -73,6 +97,7 @@ function LoginForm(){
 
     return (
         
+        <>
         <div className='loginForm'>
             <div className='logregLabel'>
 
@@ -94,6 +119,15 @@ function LoginForm(){
 
             </div>
         </div>
+        
+            <div className={errbool ? 'errorform active' : 'errorform'}>
+
+                <div className='createChatFormH'><h>{errName}</h></div>
+
+                <div className='createChatFormButton'><button onClick={setBool}>Close</button></div>
+
+            </div>
+        </>
     )
 }
 

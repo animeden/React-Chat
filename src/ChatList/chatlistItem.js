@@ -111,7 +111,7 @@ function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setSc
   
                 if(event.status){
                   
-                  console.log(event)
+                  console.log(event);
   
                 }
                 else{
@@ -233,9 +233,9 @@ function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setSc
 
     return (
         <div>
-            <button className='chatlistItem' onClick={()=>makeFormVisible()}>
+            <button className='chatlistItem'>
 
-                <h>{chat.name}</h>
+                <button className='openChat' onClick={()=>makeFormVisible()}><h>{chat.name}</h></button>
 
                 <div className='actionsBlock'>
 
