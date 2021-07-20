@@ -113,6 +113,12 @@ function ChatList(props){
 
         return messageArr
     }
+
+    function onKeyHandle(event) {
+      if(event.key === 'Enter'){
+        sendMessage();
+      }
+    }
     
     useEffect(()=>{
       sockets()
@@ -144,7 +150,7 @@ function ChatList(props){
 
                 <div className='messageWrite'>
 
-                    <input  type="text" onChange={changeNewMessage} value={newMessage} placeholder='Write your message here'/>
+                    <input type="text" onChange={changeNewMessage} onKeyPress={onKeyHandle} value={newMessage} placeholder='Write your message here'/>
                     <button onClick={sendMessage}>Send</button>
 
                 </div>

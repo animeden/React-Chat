@@ -15,8 +15,6 @@ function LoginForm(){
 
     const [password, setStatePassword] = useState('');
 
-    const token  =  useSelector(state => state.login.stateUserToken);
-
     const id  =  useSelector(state => state.login.stateUserId);
 
     function setUserName(event){
@@ -42,7 +40,7 @@ function LoginForm(){
             }),
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-              'Authorization': token,
+              'Authorization': '',
             }
         }).then(function (response) {
             if (response.data !== '' && response.data.constructor === Object) {  
