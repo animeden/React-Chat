@@ -7,7 +7,7 @@ import * as AIIcons from 'react-icons/ai'
 import stringify from 'qs-stringify'
 import axios from 'axios'
 
-function ChatListItem({chat, setIsFormVisible, ws}){
+function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setScrolltoDown}){
 
     const [addUsersId, setAddUsersId] = useState('');
 
@@ -85,10 +85,12 @@ function ChatListItem({chat, setIsFormVisible, ws}){
     function makeFormVisible() {
         setIsFormVisible(true);
         subscribeToChat();
+        setChatId(chat.id);
     }
 
     function subscribeToChat() {
         ws.socketSend('chat/subscribe-chat', {'chat_id': chat.id});
+        getAllMessages();
     }
 
     async function deleteChat() {
@@ -191,6 +193,43 @@ function ChatListItem({chat, setIsFormVisible, ws}){
         });
   
       } 
+
+    async function getAllMessages() {
+  
+        await axios({
+            method: 'post',
+            url: "https://chat.vallsoft.com/api/chats/get-chat-data" ,
+            data: stringify({
+              chat_id: chat.id,
+              messages_limit: '50',
+              offset: '0'
+            }),
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+              'Authorization': token,
+            }
+        }).then(function (response) {
+            if (response.data !== '' && response.data.constructor === Object) {  
+                let event = response.data
+  
+                if(event.status){
+                  
+                    setMessages(event.data);
+                    console.log(event.data)
+  
+                }
+                else{
+                  console.log(event);
+                    
+                }
+
+                setScrolltoDown();
+            }
+        }).catch(function (error) {
+            console.log(error)
+        });
+  
+    }
 
     return (
         <div>

@@ -48,8 +48,9 @@ function ChatList(){
   
     }
 
-    useEffect(getAllChats);
-
+    useEffect(()=>{
+        getAllChats()
+    },[]);
 
     return (
         <div className={'chatlist-' + theme.siteTheme}>

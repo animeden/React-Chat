@@ -3,6 +3,8 @@ import '../index.css'
 import {useSelector} from 'react-redux'
 import ChatListItem from './chatlistItem'
 import Yii2WebSockets from '../yiisockets-core'
+import stringify from 'qs-stringify'
+import axios from 'axios'
 
 function ChatList(props){
     
@@ -14,87 +16,13 @@ function ChatList(props){
 
     const [ws, setWs] = useState({});
 
-    const testMassive = [
-        {
-          "sender_id": "1",
-          "sender_name": "Robert",
-          "message": "1) Hello, Bobert"
-        },
-        {
-          "sender_id": "6",
-          "sender_name": "Bobert",
-          "message": "2) Hello, Robert"
-        },
-        {
-          "sender_id": "1",
-          "sender_name": "Robert",
-          "message": "3) Whats up?"
-        },
-        {
-          "sender_id": "1",
-          "sender_name": "Robert",
-          "message": "3) all ok?"
-        },
-        {
-          "sender_id": "6",
-          "sender_name": "Bobert",
-          "message": "4) Everything same"
-        },
-        {
-            "sender_id": "1",
-            "sender_name": "Robert",
-            "message": "1) Hello, Bobert"
-          },
-          {
-            "sender_id": "6",
-            "sender_name": "Bobert",
-            "message": "2) Hello, Robert"
-          },
-          {
-            "sender_id": "1",
-            "sender_name": "Robert",
-            "message": "3) Whats up?"
-          },
-          {
-            "sender_id": "1",
-            "sender_name": "Robert",
-            "message": "3) all ok?"
-          },
-          {
-            "sender_id": "6",
-            "sender_name": "Bobert",
-            "message": "4) Everything same"
-          },
-          {
-            "sender_id": "1",
-            "sender_name": "Robert",
-            "message": "1) Hello, Bobert"
-          },
-          {
-            "sender_id": "6",
-            "sender_name": "Bobert",
-            "message": "2) Hello, Robert"
-          },
-          {
-            "sender_id": "1",
-            "sender_name": "Robert",
-            "message": "3) Whats up?"
-          },
-          {
-            "sender_id": "1",
-            "sender_name": "Robert",
-            "message": "3) all ok?"
-          },
-          {
-            "sender_id": "6",
-            "sender_name": "Bobert",
-            "message": "4) Everything same"
-          },
-      ]
+    const [messages, setMessages] = useState([]);
 
     const [newMessage, setNewMessage] = useState('');
 
     const [isFormVisible, setIsFormVisible] = useState(false);
+
+    const [chatId, setChatId] = useState('');
 
     function sockets() {
         //Подключение
@@ -105,8 +33,8 @@ function ChatList(props){
        
         //action, которые вы будете слушать
         _ws.addAction('new-message', function (data) {
-            //тут описываете, что делать с данными, которые пришли
-             console.log(data)
+             getAllMessages(data.chat_id);
+             console.log(data);
         });
         _ws.addAction('status', function (data) {
             //тут описываете, что делать с данными, которые пришли
@@ -120,6 +48,53 @@ function ChatList(props){
     function changeNewMessage(event) {
         setNewMessage(event.target.value)
     }
+
+    function sendMessage() {
+      ws.socketSend('chat/send', {'text': newMessage , 'user_id' : id, 'chat_id' : chatId });
+      getAllMessages(chatId);
+      setNewMessage('');
+    }
+
+    async function getAllMessages(chat_id) {
+  
+      await axios({
+          method: 'post',
+          url: "https://chat.vallsoft.com/api/chats/get-chat-data" ,
+          data: stringify({
+            chat_id: chat_id,
+            messages_limit: '50',
+            offset: '0'
+          }),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            'Authorization': token,
+          }
+      }).then(function (response) {
+          if (response.data !== '' && response.data.constructor === Object) {  
+              let event = response.data
+
+              if(event.status){
+                
+                  setMessages(event.data);
+                  console.log(event.data);
+                  setScrolltoDown();
+
+              }
+              else{
+                console.log(event);
+                  
+              }
+          }
+      }).catch(function (error) {
+          console.log(error)
+      });
+
+  }
+
+  function setScrolltoDown() {
+    var wrapp = document.getElementById("wrapp");
+    wrapp.scrollTop = wrapp.scrollHeight;
+  }
 
     function message(messages){
         let messageArr = [];
@@ -139,7 +114,9 @@ function ChatList(props){
         return messageArr
     }
     
-    useEffect(sockets());
+    useEffect(()=>{
+      sockets()
+    },[]);
 
     return (
         <>
@@ -148,6 +125,9 @@ function ChatList(props){
                     { props.chats.map(chat =>{
                         return <ChatListItem 
                         setIsFormVisible={setIsFormVisible}
+                        setMessages={setMessages}
+                        setChatId={setChatId}
+                        setScrolltoDown={setScrolltoDown}
                         ws={ws}
                         chat={chat}/>
                     }) }
@@ -157,14 +137,15 @@ function ChatList(props){
 
             <div className='messageForm'>
 
-                <div className='messages'>
-                    {message(testMassive)}
+                <div className='messages' id='wrapp'>
+                    {message(messages)}
                 </div>
+                
 
                 <div className='messageWrite'>
 
                     <input  type="text" onChange={changeNewMessage} value={newMessage} placeholder='Write your message here'/>
-                    <button>Send</button>
+                    <button onClick={sendMessage}>Send</button>
 
                 </div>
 

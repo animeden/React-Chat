@@ -733,6 +733,9 @@ code {
   font-size: 20px;
   background: transparent;
   border: none;
+  margin-top: 2px;
+  text-decoration: underline;
+  color: darkblue;
 }
 
 .logregButton button:hover{
