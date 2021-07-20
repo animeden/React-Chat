@@ -7,7 +7,7 @@ import * as AIIcons from 'react-icons/ai'
 import stringify from 'qs-stringify'
 import axios from 'axios'
 
-function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setScrolltoDown}){
+function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setScrolltoDown, setChats}){
 
     const [addUsersId, setAddUsersId] = useState('');
 
@@ -93,6 +93,39 @@ function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setSc
         getAllMessages();
     }
 
+    async function getAllChats() {
+  
+        await axios({
+            method: 'post',
+            url: "https://chat.vallsoft.com/api/chats/get-available-chats" ,
+            data: stringify({
+                user_id: id
+            }),
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+              'Authorization': token,
+            }
+        }).then(function (response) {
+            if (response.data !== '' && response.data.constructor === Object) {  
+                let event = response.data
+  
+                if(event.status){
+                  
+                  
+                  setChats(event.data);
+  
+                }
+                else{
+                  
+  
+                }
+            }
+        }).catch(function (error) {
+            console.log(error)
+        });
+  
+    }
+
     async function deleteChat() {
   
         await axios({
@@ -112,6 +145,7 @@ function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setSc
                 if(event.status){
                   
                   console.log(event);
+                  getAllChats();
   
                 }
                 else{

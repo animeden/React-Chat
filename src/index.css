@@ -157,6 +157,9 @@ code {
   justify-content: center;
   background: #a3a3a3;
   overflow: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .chatlistlist-dark{

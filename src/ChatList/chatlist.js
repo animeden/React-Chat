@@ -28,9 +28,48 @@ function ChatList(props){
     
     const [errName, setErrorName] = useState('');
     
+    const [chats, setChats] = useState([]);
+
+    async function getAllChats() {
+  
+        await axios({
+            method: 'post',
+            url: "https://chat.vallsoft.com/api/chats/get-available-chats" ,
+            data: stringify({
+                user_id: id
+            }),
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+              'Authorization': token,
+            }
+        }).then(function (response) {
+            if (response.data !== '' && response.data.constructor === Object) {  
+                let event = response.data
+  
+                if(event.status){
+                  
+                  
+                  setChats(event.data);
+  
+                }
+                else{
+                  
+  
+                }
+            }
+        }).catch(function (error) {
+            console.log(error)
+        });
+  
+    }
+
+    useEffect(()=>{
+        getAllChats()
+    },[]);
+    
     function setBool() {
       setErrorBool(false)
-  }
+    }
 
     function sockets() {
         //Подключение
@@ -140,12 +179,13 @@ function ChatList(props){
         <>
             <div className={'chatlistlist-'  + theme.siteTheme}>
                 <div className='chatlistlistblock'>
-                    { props.chats.map(chat =>{
+                    { chats.map(chat =>{
                         return <ChatListItem 
                         setIsFormVisible={setIsFormVisible}
                         setMessages={setMessages}
                         setChatId={setChatId}
                         setScrolltoDown={setScrolltoDown}
+                        setChats={setChats}
                         ws={ws}
                         chat={chat}/>
                     }) }
