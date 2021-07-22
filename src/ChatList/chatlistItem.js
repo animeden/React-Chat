@@ -213,7 +213,8 @@ function ChatListItem({chat, setIsFormVisible, ws, setMessages, setChatId, setSc
   
                 if(event.status){
                   
-                  console.log(event)
+                  console.log(event);
+                  getAllMessages();
   
                 }
                 else{
